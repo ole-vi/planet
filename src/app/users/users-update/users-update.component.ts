@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,6 +14,7 @@ import { languages } from '../../shared/languages';
 import { CustomValidators } from '../../validators/custom-validators';
 import { StateService } from '../../shared/state.service';
 import { ValidatorService } from '../../validators/validator.service';
+import { NgxImgComponent } from 'ngx-img';
 
 @Component({
   templateUrl: './users-update.component.html',
@@ -45,6 +46,7 @@ export class UsersUpdateComponent implements OnInit {
   submissionMode = false;
   planetConfiguration = this.stateService.configuration;
   ngxImgConfig = { crop: [ { ratio: 1 } ], fileType: [ 'image/gif', 'image/jpeg', 'image/png' ] };
+  @ViewChild('imageuploader', { static: false }) public imageUploader: NgxImgComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -79,6 +81,7 @@ export class UsersUpdateComponent implements OnInit {
           this.uploadImage = true;
         }
         this.previewSrc = this.currentProfileImg;
+        this.setInitImage();
         console.log('data: ' + data);
       }, (error) => {
         console.log(error);
@@ -175,6 +178,12 @@ export class UsersUpdateComponent implements OnInit {
     })).subscribe(() => {
       this.goBack();
     });
+  }
+
+  setInitImage(): void {
+    this.imageUploader.hasPreview = true;
+    this.imageUploader.imgSrc = this.currentProfileImg;
+    this.imageUploader.mode = 'crop';
   }
 
 }
