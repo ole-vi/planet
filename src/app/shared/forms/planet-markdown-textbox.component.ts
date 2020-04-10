@@ -98,6 +98,7 @@ export class PlanetMarkdownTextboxComponent implements ControlValueAccessor, DoC
 
   ngDoCheck() {
     this.checkHighlight();
+    this.validLink();
   }
 
   ngOnInit() {
@@ -150,6 +151,11 @@ export class PlanetMarkdownTextboxComponent implements ControlValueAccessor, DoC
 
   setErrorState() {
     this.errorState = this.ngControl.touched && (typeof this._value === 'string' ? this._value : this._value.text) === '';
+  }
+
+  validLink() {
+    return /(^[\w\s]*)?\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)([\w\s]*)?$/.test(this._value === 'string' ?
+      this._value : this._value.text) ? null : { 'invalidMarkdownLink': true };
   }
 
   onFocusOut() {
