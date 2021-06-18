@@ -220,7 +220,9 @@ export class PlanetTagInputDialogComponent {
   }
 
   tagNameSyncValidator() {
-    return [ CustomValidators.required, ac => ac.value.match('_') ? { noUnderscore: true } : null ];
+    return [ CustomValidators.required,
+      ac => ac.value.match('_') ? { noUnderscore: true } : null,
+      ac => ac.value.length > 30 ? { maxLength: true } : null ];
   }
 
   tagNameAsyncValidator(ac, exception = '') {
