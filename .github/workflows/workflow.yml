@@ -1,0 +1,37 @@
+on:
+  push:  
+    branches-ignore:
+      - l10n_master
+  workflow_dispatch:
+
+jobs:
+  docker-creation:
+    name: "Docker creation"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "English"
+        run: ./.travis/deploy_single_language.sh 'eng' 'en'
+        shell: bash
+      - name: "Arabic"
+        if: ${{ github.tags = github.branches }}
+        run: ./.travis/deploy_single_language.sh 'ara' 'ar'
+        shell: bash
+      - name: "French"
+        if: ${{ github.tags = github.branches }}
+        run: ./.travis/deploy_single_language.sh 'fra' 'fr'
+        shell: bash
+      - name: "Nepali"
+        if: ${{ github.tags = github.branches }}
+        run: ./.travis/deploy_single_language.sh 'nep' 'ne'
+        shell: bash
+      - name: "Somali"
+        if: ${{ github.tags = github.branches }}
+        run: ./.travis/deploy_single_language.sh 'som' 'so'
+        shell: bash
+      #- shell: bash
+      #  run: |
+      #    set -e
+      #    source ./.travis/travis_utils.sh
+      #    prepare_ci
+      #    prepare_db_init_test
+      #    deploy_docker './docker/db-init/Dockerfile' $DOCKER_DB_INIT_TEST $DOCKER_DB_INIT_TEST_LATEST 
